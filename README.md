@@ -5,7 +5,8 @@ react-native-screen's Screen component. When the Screen component receives
 absolute position as style it lags behind on layout updates causing this layout
 shift. 
 
-<video src="./videos/isolated-reproduction-orientation-issue.mp4" width="200px" />
+<video src="./videos/isolated-reproduction-orientation-issue.mp4"
+width="200px"></video>
 
 Note, while in this reproducible this is fast. In a large app with busy threads
 the layout shift is way more prominent giving users a broken App sensation.
