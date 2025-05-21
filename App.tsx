@@ -24,6 +24,8 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import {Screen, ScreenStack} from 'react-native-screens';
+
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
@@ -54,7 +56,7 @@ function Section({children, title}: SectionProps): React.JSX.Element {
   );
 }
 
-function App(): React.JSX.Element {
+function AppMain(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -78,10 +80,9 @@ function App(): React.JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView
-        style={backgroundStyle}>
+      <ScrollView style={backgroundStyle}>
         <View style={{paddingRight: safePadding}}>
-          <Header/>
+          <Header />
         </View>
         <View
           style={{
@@ -127,5 +128,18 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 });
+
+function App() {
+  return (
+    <ScreenStack style={{flex: 1, backgroundColor: 'red'}}>
+      <Screen
+        style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, backgroundColor: 'blue'}}
+        enabled
+        isNativeStack>
+        <AppMain />
+      </Screen>
+    </ScreenStack>
+  );
+}
 
 export default App;
