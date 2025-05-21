@@ -6,6 +6,8 @@
  */
 
 import React from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
 import type {PropsWithChildren} from 'react';
 import {
   ScrollView,
@@ -133,12 +135,33 @@ function App() {
   return (
     <ScreenStack style={{flex: 1, backgroundColor: 'red'}}>
       <Screen
-        style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, backgroundColor: 'blue'}}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          backgroundColor: 'blue',
+          padding: 20,
+        }}
+        // style={{flex: 1, backgroundColor: 'blue'}}
         enabled
         isNativeStack>
         <AppMain />
       </Screen>
     </ScreenStack>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+function MyStack() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={AppMain} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
