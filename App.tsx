@@ -6,6 +6,8 @@
  */
 
 import React from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
 import type {PropsWithChildren} from 'react';
 import {
   ScrollView,
@@ -23,6 +25,8 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+import {Screen, ScreenStack} from 'react-native-screens';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -54,7 +58,7 @@ function Section({children, title}: SectionProps): React.JSX.Element {
   );
 }
 
-function App(): React.JSX.Element {
+function AppMain(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -64,7 +68,7 @@ function App(): React.JSX.Element {
   /*
    * To keep the template simple and small we're adding padding to prevent view
    * from rendering under the System UI.
-   * For bigger apps the recommendation is to use `react-native-safe-area-context`:
+   * For bigger apps the reccomendation is to use `react-native-safe-area-context`:
    * https://github.com/AppAndFlow/react-native-safe-area-context
    *
    * You can read more about it here:
@@ -78,10 +82,9 @@ function App(): React.JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView
-        style={backgroundStyle}>
+      <ScrollView style={backgroundStyle}>
         <View style={{paddingRight: safePadding}}>
-          <Header/>
+          <Header />
         </View>
         <View
           style={{
@@ -127,5 +130,39 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 });
+
+function App() {
+  return (
+    <ScreenStack style={{flex: 1, backgroundColor: 'red'}}>
+      <Screen
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          backgroundColor: 'blue',
+          padding: 20,
+        }}
+        // style={{flex: 1, backgroundColor: 'blue'}}
+        enabled
+        isNativeStack>
+        <AppMain />
+      </Screen>
+    </ScreenStack>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+function MyStack() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={AppMain} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 export default App;
