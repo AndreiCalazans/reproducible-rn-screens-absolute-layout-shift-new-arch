@@ -20,7 +20,7 @@ In consequence it causes a large layout shift.
 We don't understand yet why this updateState exists but removing it does seem to
 fix things, see video below:
 
-https://github.com/user-attachments/assets/ed54021c-bb3e-4388-bd5d-bfa3aa9d3b7b
+https://github.com/user-attachments/assets/034435a5-bcac-4218-b0f5-61ea490e11bf
 
 
 The question now is:
