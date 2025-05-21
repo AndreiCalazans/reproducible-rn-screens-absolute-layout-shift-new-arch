@@ -1,3 +1,18 @@
+
+When changing orientation we see large layout shifts occurring in the new
+archicture. Upon close investigation we isolated the problem to be related to
+react-native-screen's Screen component. When the Screen component receives
+absolute position as style it lags behind on layout updates causing this layout
+shift. 
+
+<video src="./videos/isolated-reproduction-orientation-issue.mp4" width="200px" />
+
+Note, while in this reproducible this is fast. In a large app with busy threads
+the layout shift is way more prominent giving users a broken App sensation.
+
+
+
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
