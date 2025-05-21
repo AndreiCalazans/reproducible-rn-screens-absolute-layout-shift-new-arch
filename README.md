@@ -1,16 +1,35 @@
 
 When changing orientation we see large layout shifts occurring in the new
 archicture. Upon close investigation we isolated the problem to be related to
-react-native-screen's Screen component. When the Screen component receives
-absolute position as style it lags behind on layout updates causing this layout
-shift. 
-
+react-native-screen's Screen component. 
 
 https://github.com/user-attachments/assets/21db04b3-357e-4445-bed8-df640023ea5f
 
 Note, while in this reproducible this is fast. In a large app with busy threads
 the layout shift is way more prominent giving users a broken App sensation.
 
+At first we thought this was particularly related to absolute layout positioning
+but further investigation proved us wrong. 
+
+We found that this onLayout updateState call [in FabricEnabledViewGroup
+onLayout](https://github.com/software-mansion/react-native-screens/blob/f79fcae0a35d3f9db23d437c2354ede2ff1906b8/android/src/fabric/java/com/swmansion/rnscreens/FabricEnabledViewGroup.kt#L34-L63)
+triggered by the [ScreenContainer's onLayout](https://github.com/software-mansion/react-native-screens/blob/f79fcae0a35d3f9db23d437c2354ede2ff1906b8/android/src/main/java/com/swmansion/rnscreens/ScreenContainer.kt#L46-L56) causes a layout change that is different from the layout represented in the Shadow Tree. 
+In consequence it causes a large layout shift.
+
+
+We don't understand yet why this updateState exists but removing it does seem to
+fix things, see video below:
+
+https://github.com/user-attachments/assets/ed54021c-bb3e-4388-bd5d-bfa3aa9d3b7b
+
+
+The question now is:
+1. Why does this updateState exist?
+2. if we need to keep it how do we ensure possibly schedule the update to occur
+   together with its children layout to avoid the layout shift? 
+3. is this maybe just a problem of incorrect dimenisions here?
+4. does Fabric now make this code unnecessary given I didn't find any bugs in
+   our App by testing it without this logic?
 
 
 
